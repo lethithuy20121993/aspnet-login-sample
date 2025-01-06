@@ -69,8 +69,8 @@ namespace aspnet_login.Controllers
                     Console.WriteLine("Login successful!");
                     return RedirectToAction("LoginSuccess");
                 }
-                ViewData["PopupMessage"] = "Login failed. Please try again.";
-                Console.WriteLine("Login failed. Please try again.");
+                ViewData["PopupMessage"] = "Username or password is incorrect.";
+                Console.WriteLine("Username or password is incorrect.");
             }
             else if (action == "signup")
             {
@@ -126,15 +126,15 @@ namespace aspnet_login.Controllers
                     Console.WriteLine("Login successful!");
                     return RedirectToAction("LoginSuccess");
                 }
-                ViewData["PopupMessage"] = "Login failed. Please try again.";
-                Console.WriteLine("Login failed. Please try again.");
+                // ViewData["PopupMessage"] = "Username or password is incorrect.";
+                Console.WriteLine("Username or password is incorrect.");
             }
             else if (action == "signup")
             {
                 // Check if the email already exists
                 if (users.Exists(u => u.Email == email))
                 {
-                    ViewData["PopupMessage"] = "Email already exists.";
+                    // ViewData["PopupMessage"] = "Email already exists.";
                     Console.WriteLine("Email already exists.");
                     return View();
                 }
@@ -146,7 +146,7 @@ namespace aspnet_login.Controllers
                 // Save the updated list to the JSON file
                 SaveUsers(users);
 
-                ViewData["PopupMessage"] = "Sign up successful!";
+                // ViewData["PopupMessage"] = "Sign up successful!";
                 Console.WriteLine("Sign up successful!");
                 return View();
             }

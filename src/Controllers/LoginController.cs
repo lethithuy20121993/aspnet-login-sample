@@ -45,7 +45,24 @@ namespace aspnet_login.Controllers
 
         public IActionResult LoginSuccess()
         {
+            if (HttpContext.Session.GetString("LoggedIn") != "true")
+            {
+                string loginOrigin = HttpContext.Session.GetString("LoginOrigin") ?? "Index";
+                return RedirectToAction(loginOrigin);
+            }
+            
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            string loginOrigin = HttpContext.Session.GetString("LoginOrigin") ?? "Index";
+            HttpContext.Session.Remove("LoggedIn");
+            HttpContext.Session.Remove("Email");
+            HttpContext.Session.Clear();
+
+            return RedirectToAction(loginOrigin);
         }
 
         // Handle login process
@@ -66,6 +83,12 @@ namespace aspnet_login.Controllers
                 var user = users.Find(u => u.Email == email && u.Password == password);
                 if (user != null)
                 {
+                    HttpContext.Session.SetString("LoggedIn", "true");
+                    // Save email to session
+                    HttpContext.Session.SetString("Email", email);
+
+                    HttpContext.Session.SetString("LoginOrigin", "Index");
+
                     Console.WriteLine("Login successful!");
                     return RedirectToAction("LoginSuccess");
                 }
@@ -123,6 +146,12 @@ namespace aspnet_login.Controllers
                 var user = users.Find(u => u.Email == email && u.Password == password);
                 if (user != null)
                 {
+                    HttpContext.Session.SetString("LoggedIn", "true");
+                    // Save email to session
+                    HttpContext.Session.SetString("Email", email);
+
+                    HttpContext.Session.SetString("LoginOrigin", "Login2");
+
                     Console.WriteLine("Login successful!");
                     return RedirectToAction("LoginSuccess");
                 }

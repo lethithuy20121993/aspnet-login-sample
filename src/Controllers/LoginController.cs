@@ -40,6 +40,10 @@ namespace aspnet_login.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("LoggedIn") == "true")
+            {
+                return RedirectToAction("LoginSuccess");
+            }
             return View();
         }
 
@@ -126,6 +130,10 @@ namespace aspnet_login.Controllers
         [HttpGet]
         public IActionResult Login2()
         {
+            if (HttpContext.Session.GetString("LoggedIn") == "true")
+            {
+                return RedirectToAction("LoginSuccess");
+            }
             return View();
         }
 
